@@ -100,17 +100,15 @@ print(f"Shape after encoding: {df.shape}")
 # ---------------------------------------------------------------------------
 # STEP 5: Build composite attitudinal scores
 # ---------------------------------------------------------------------------
-# Finding: charter's feature engineering plan calls for a composite
-# political-trust score built from the Q18_x block (trust in institutions)
-# instead of feeding ~10 near-duplicate columns into the model separately.
-# Averaging keeps the score on the same 1-2-ish scale as the
+# Finding: per the codebook, Q8_x is the trust-in-institutions
+# battery. Averaging keeps the score on the same 1-4 scale as the
 # source items, which keeps it interpretable later.
-q18_cols = [c for c in df.columns if c.startswith("Q18_")]
-if q18_cols:
-    df["trust_composite"] = df[q18_cols].mean(axis=1)
-    print(f"\nSTEP 5: Built trust_composite from {len(q18_cols)} Q18_x columns.")
+q8_cols = [c for c in df.columns if c.startswith("Q8_")]
+if q8_cols:
+    df["trust_composite"] = df[q8_cols].mean(axis=1)
+    print(f"\nSTEP 5: Built trust_composite from {len(q8_cols)} Q8_x columns.")
 else:
-    print("\nSTEP 5: Q18_x block was fully dropped in Step 2 (high missingness) -- "
+    print("\nSTEP 5: Q8_x block was fully dropped in Step 2 (high missingness) -- "
           "no trust_composite built. Flag this for the team: the planned "
           "feature depends on a column group that didn't survive cleaning.")
 
